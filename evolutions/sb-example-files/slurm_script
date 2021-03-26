@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH --nodes=8
+#SBATCH --ntasks-per-node=8
+#SBATCH --time=02:00:00
+#SBATCH -J sb-run
+#SBATCH -p general
+#SBATCH -o log.txt
+#SBATCH -e log.err
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=dncross@iu.edu
+#SBATCH --mem=58G
+
+module purge
+
+module load PrgEnv-intel
+module load gsl
+module load cray-hdf5
+module load cray-fftw
+module load pmi-lib
+module load openmpi
+module load slurm
+
+module list
+
+export OMP_NUM_THREADS=9  
+ulimit -s 1024000
+srun ./GIZMO sb-cluster.params
