@@ -5,6 +5,7 @@ SIDM_globular_clusters.docx
 IC_factory/lizard
 IC_factory/**/*.dat
 IC_factory/**/*.npy
+IC_factory/**/*.hdf5
 
 evolutions/Template_Config.sh
 evolutions/sb-example
