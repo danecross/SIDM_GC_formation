@@ -9,11 +9,14 @@ from lizard import *
 from lizard.log import VerboseTimingLog
 from numpy import load, save
 from lizard.uniform import make_glass_uniform, uniform_box
-from os import path, mkdir
+from os import path, mkdir, remove, listdir
 from lizard.power import efstathiou
 from lizard.test_ics import test_readspec
 from lizard.gadget import make_spec_from_ICs
-
+'''
+for f in listdir(): 
+    if f[:5] == "displ": remove(f)
+'''
 log = VerboseTimingLog(filename='box100.log', also_stdout=True, insert_timings=True)
 
 dmonly = True # Only DM
@@ -44,6 +47,8 @@ gadget_file = ('IC_%d_'%gridsize)+{True:'dmonly',False:''}[dmonly]+'.dat'
 pts, sizes = uniform_box(boxsize, gridsize)
 displace(a, omegaM, omegaL, omegab, H0, boxsize, disp_file, pts.T, sizes, particle_file, dm_only=dmonly, log=log)
 
-# Format the particle file as a gadget file
-gadget(a,H0,boxsize,omegaM,omegaL,particle_file, gadget_file, use_double=False, dm_only=dmonly, log=log)
+# Format the particle file as an HDF5 file
+from positions_to_hdf5 import to_hdf5
+to_hdf5(particle_file)
+
 
