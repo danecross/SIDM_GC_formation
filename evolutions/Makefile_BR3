@@ -11,6 +11,8 @@
 # Edited by Dane Cross for use on IU's BR3 (dncross@iu.edu)
 # 
 # If you're having issues with the make, look at the comments on lines 110-130 first.
+# 
+# IMPORTANT: in your Config.sh file, be sure to use the flag USE_FFTW3
 #
 ############
 
@@ -27,12 +29,12 @@ BUILDINFO = "Build on $(HOSTNAME) by $(USER) from $(HG_BRANCH):$(HG_COMMIT) at $
 OPT += -DBUILDINFO='$(BUILDINFO)'
 
 
-# initialize some default flags -- these will all get re-written below
-CC	= cc		# sets the C-compiler (default, will be set for machine below)
-CXX	= CC		# sets the C++-compiler (default, will be set for machine below)
-FC	= mpif90	# sets the fortran compiler (default, will be set for machine below)
-OPTIMIZE = -Wall  -g   # optimization and warning flags (default)
-MPICHLIB = -lmpich	# mpi library (arbitrary default, set for machine below)
+# Compiler flags 
+CC	= mpicc			# sets the C-compiler (default, will be set for machine below)
+CXX	= mpiCC			# sets the C++-compiler (default, will be set for machine below)
+FC	= ftn	-nofor-main	# sets the fortran compiler (default, will be set for machine below)
+OPTIMIZE = -Wall  -g   		# optimization and warning flags (default)
+MPICHLIB = -lmpich		# mpi library (arbitrary default, set for machine below)
 CHIMESINCL = # default to empty, will only be used below if called
 CHIMESLIBS = # default to empty, will only be used below if called
 
@@ -143,7 +145,7 @@ FFTW_INCL= -I$(FFTW_DIR)/include
 FFTW_LIBS= -L$(FFTW_DIR)/lib
 HDF5INCL = -I$(HDF5_DIR)/include -DH5_USE_16_API
 HDF5LIB  = -L$(HDF5_DIR)/lib -lhdf5 -lz
-MPICHLIB = -L$(MPI_DIR)/lib -lmpi_mpifh #-lmpich_intel
+MPICHLIB = -L$(MPI_DIR)/lib -lmpi_mpifh -lmpi #-lmpich_intel
 OPT     += -DUSE_MPI_IN_PLACE
 
 
