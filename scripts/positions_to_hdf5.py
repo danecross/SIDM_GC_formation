@@ -3,29 +3,26 @@
 import numpy as np
 import h5py as hpy
 
-particle_file = "particles_dmonly_256.dat"
-
-
-def to_hdf5(particle_file, output_filename="IC.hdf5"):
+def to_hdf5(particle_file, num_particles=1 output_filename="IC.hdf5"):
     
     f = open(particle_file, 'rb')
-    dm_nums = np.load(f)
-    dm_mass = np.load(f)
-    dm_pos = (np.load(f)* 1e3).astype(float)
-    dm_vel = np.load(f).astype(float)
+
+    for i in range(num_particles):
+        nums = np.load(f)
+        mass = np.load(f)
+        pos = (np.load(f)* 1e3).astype(float)
+        vel = np.load(f).astype(float)
+
+        IC_file = hpy.File(output_filename, 'w')
+        P = IC_file.create_group("PartType"_str(i))
+        header = IC_file.create_group("Header")
+
+        P.create_dataset("ParticleIDs", data=list(range(len(pos))))
+        P.create_dataset("Coordinates", data=pos)
+        P.create_dataset("Velocities", data=vel)
+        P.create_dataset("Masses", data=mass)
+
     f.close()
-
-    num_particles = [0] + list(dm_nums)
-
-    mass_header = [0] + [mass*1e-10 for mass in dm_mass]
-
-    IC_file = hpy.File(output_filename, 'w')
-    DM = IC_file.create_group("DM_Particle")
-
-    DM.create_dataset("Coordinates", data=dm_pos)
-    DM.create_dataset("Velocities", data=dm_vel)
-    DM.create_dataset("Masses", data=dm_mass)
-
     IC_file.close()
 
     
