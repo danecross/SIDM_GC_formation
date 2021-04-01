@@ -8,7 +8,7 @@ IC_factory/**/*.npy
 IC_factory/**/*.hdf5
 
 evolutions/Template_Config.sh
-evolutions/sb-example
-evolutions/sb-example-files/sbcluster_ics.hdf5
+evolutions/**/*.hdf5
+
 
 
