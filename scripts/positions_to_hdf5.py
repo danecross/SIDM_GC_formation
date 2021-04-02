@@ -3,7 +3,7 @@
 import numpy as np
 import h5py as hpy
 
-def to_hdf5(particle_file, num_particles=1 output_filename="IC.hdf5"):
+def to_hdf5(particle_file, num_particles=1, output_filename="IC.hdf5"):
     
     f = open(particle_file, 'rb')
 
@@ -14,7 +14,7 @@ def to_hdf5(particle_file, num_particles=1 output_filename="IC.hdf5"):
         vel = np.load(f).astype(float)
 
         IC_file = hpy.File(output_filename, 'w')
-        P = IC_file.create_group("PartType"_str(i))
+        P = IC_file.create_group("PartType"+str(i))
         header = IC_file.create_group("Header")
 
         P.create_dataset("ParticleIDs", data=list(range(len(pos))))
