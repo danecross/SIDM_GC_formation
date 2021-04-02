@@ -3,29 +3,34 @@
 import numpy as np
 import h5py as hpy
 
-def to_hdf5(particle_file, num_particles=1, output_filename="IC.hdf5"):
+def to_hdf5(particle_file, num_particles=256 output_filename="IC.hdf5"):
     
     f = open(particle_file, 'rb')
+    
+    IC_file = hpy.File(output_filename, 'w')
+    h = IC_file.create_group("Header")
+    
+    #write header
+    h.attrs['NumPart_ThisFile']=np.array([0,num_particles**3, 0, 0, 0, 0])
+    h.attrs['NumPart_Total'] = np.array([0,num_particles**3, 0, 0, 0, 0])
+    h.attrs['Time'] = 0.0
 
-    for i in range(num_particles):
-        nums = np.load(f)
-        mass = np.load(f)
-        pos = (np.load(f)* 1e3).astype(float)
-        vel = np.load(f).astype(float)
+    nums = np.load(f)
+    mass = np.load(f)
+    pos = (np.load(f)* 1e3).astype(float)
+    vel = np.load(f).astype(float)
 
-        IC_file = hpy.File(output_filename, 'w')
-        P = IC_file.create_group("PartType"+str(i))
-        header = IC_file.create_group("Header")
+    P = IC_file.create_group("PartType1")
 
-        P.create_dataset("ParticleIDs", data=list(range(len(pos))))
-        P.create_dataset("Coordinates", data=pos)
-        P.create_dataset("Velocities", data=vel)
+    P.create_dataset("ParticleIDs", data=list(range(len(pos))))
+    P.create_dataset("Coordinates", data=pos)
+    P.create_dataset("Velocities", data=vel)
         
-        if len(nums) != 1:
-            P.create_dataset("Masses", data=mass)
-        else:
-            m = list(mass)*pos.shape[0] 
-            P.create_dataset("Masses",data=m)
+    if len(nums) != 1:
+        P.create_dataset("Masses", data=mass)
+    else:
+        m = list(mass)*pos.shape[0] 
+        P.create_dataset("Masses",data=m)
    
 
     f.close()
