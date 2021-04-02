@@ -20,7 +20,13 @@ def to_hdf5(particle_file, num_particles=1, output_filename="IC.hdf5"):
         P.create_dataset("ParticleIDs", data=list(range(len(pos))))
         P.create_dataset("Coordinates", data=pos)
         P.create_dataset("Velocities", data=vel)
-        P.create_dataset("Masses", data=mass)
+        
+        if len(nums) != 1:
+            P.create_dataset("Masses", data=mass)
+        else:
+            m = list(mass)*pos.shape[0] 
+            P.create_dataset("Masses",data=m)
+   
 
     f.close()
     IC_file.close()

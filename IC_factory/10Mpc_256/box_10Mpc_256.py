@@ -1,7 +1,6 @@
 """
 Modified example script to make a gadget file for cosmological simulation with matter and 
 velocity power spectrum given by the Zel'dovich approximation.
-
 To make the example 256^3 grid you will need about 1.3 GB ram on your computer.
 """
 
@@ -13,10 +12,10 @@ from os import path, mkdir, remove, listdir
 from lizard.power import efstathiou
 from lizard.test_ics import test_readspec
 from lizard.gadget import make_spec_from_ICs
-'''
+
 for f in listdir(): 
     if f[:5] == "displ": remove(f)
-'''
+
 log = VerboseTimingLog(filename='box100.log', also_stdout=True, insert_timings=True)
 
 dmonly = True # Only DM
@@ -50,5 +49,3 @@ displace(a, omegaM, omegaL, omegab, H0, boxsize, disp_file, pts.T, sizes, partic
 # Format the particle file as an HDF5 file
 from positions_to_hdf5 import to_hdf5
 to_hdf5(particle_file)
-
-
