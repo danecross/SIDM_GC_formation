@@ -13,10 +13,10 @@ from os import path, mkdir, remove, listdir
 from lizard.power import efstathiou
 from lizard.test_ics import test_readspec
 from lizard.gadget import make_spec_from_ICs
-'''
+
 for f in listdir(): 
     if f[:5] == "displ": remove(f)
-'''
+
 log = VerboseTimingLog(filename='box100.log', also_stdout=True, insert_timings=True)
 
 dmonly = True # Only DM
