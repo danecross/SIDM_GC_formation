@@ -11,9 +11,15 @@ def to_hdf5(particle_file, num_particles=256 output_filename="IC.hdf5"):
     h = IC_file.create_group("Header")
     
     #write header
-    h.attrs['NumPart_ThisFile']=np.array([0,num_particles**3, 0, 0, 0, 0])
-    h.attrs['NumPart_Total'] = np.array([0,num_particles**3, 0, 0, 0, 0])
+    npart = np.array([0,num_particles**3, 0, 0, 0, 0])
+    h.attrs['NumPart_ThisFile']=npart
+    h.attrs['NumPart_Total'] = npart
+    h.attrs['NumPart_Total_HighWord'] = 0*npart
+    h.attrs['MassTable'] = np.zeros(6)
+
     h.attrs['Time'] = 0.0
+    h.attrs['NumFilesPerSnapshot'] = 1
+    h.attrs['Flag_DoublePrecision'] = 0
 
     nums = np.load(f)
     mass = np.load(f)
