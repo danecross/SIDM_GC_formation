@@ -3,7 +3,7 @@
 import numpy as np
 import h5py as hpy
 
-def to_hdf5(particle_file, num_particles=256 output_filename="IC.hdf5"):
+def to_hdf5(particle_file, num_particles=256, output_filename="IC.hdf5"):
     
     f = open(particle_file, 'rb')
     
