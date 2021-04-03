@@ -1,9 +1,9 @@
 InitCondFile                ../files/IC 
 ICFormat                    3         
 OutputDir                   ../output
-MaxMemSize                  1500        % memory per MPI task (MB)  
-BufferSize                  100         % comm buffer size (MB)  
-PartAllocFactor             10          % max memory imbalance  
+MaxMemSize                  5000        	% memory per MPI task (MB)  
+BufferSize                  500         	% comm buffer size (MB)  
+PartAllocFactor             10          	% max memory imbalance  
 
 DM_InteractionCrossSection  1
 DM_DissipationFactor	    0.5
@@ -13,32 +13,36 @@ DM_InteractionVelocityScale 0
 DesLinkNgb		    32
 
 ComovingIntegrationOn       1           
-BoxSize                     1000         % box size in code units  DOUBLE CHECK THIS ONE
-Omega0			    0.315
-OmegaLambda		    0.685
-OmegaBaryon		    0
-HubbleParam		    0.673
+BoxSize                     10000         	% box size in code units  DOUBLE CHECK THIS ONE
+Omega0			    0.279
+OmegaLambda		    0.721
+OmegaBaryon		    0.05
+HubbleParam		    0.7
 
+UnitLength_in_cm            3.085678e21
+UnitMass_in_g               1.9889225000000e33 
+UnitVelocity_in_cm_per_s    1e5
 
-TimeBegin                   0           % initial simulation time  
-TimeMax                     1           % final simulation time  
-OutputListOn                0           % use tabulated snap list?  
-TimeOfFirstSnapshot         0           % time for first snapshot  
-TimeBetSnapshot             0.1         % time between snapshots  
-MaxSizeTimestep             0.01        % maximum allowed timestep  
-TreeDomainUpdateFrequency   0.01        % fraction active for build  
-DesNumNgb                   32          % effective neighbor number  
+TimeBegin                   0.0078125          				% initial simulation time  
+TimeMax                     1           				% final simulation time  
+OutputListOn                1           				% use tabulated snap list? 
+OutputListFilename	    ../files/output_snapshot_times.txt 
+TimeOfFirstSnapshot         0           				% time for first snapshot  
+TimeBetSnapshot             2.0         				% time between snapshots  
+MaxSizeTimestep             0.01        				% maximum allowed timestep  
+TreeDomainUpdateFrequency   0.05        				% fraction active for build  
+DesNumNgb                   32          				% effective neighbor number  
 AGS_DesNumNgb               32
 
-Softening_Type0             0.02        % DM (type=0) force-softening  
-Softening_Type1             0           % type=1 force-softening  
-Softening_Type2             0           % type=2 force-softening  
-Softening_Type3             0           % type=3 force-softening  
-Softening_Type4             0           % type=4 force-softening  
-Softening_Type5             0           % type=5 force-softening
+Softening_Type0             0           	% DM (type=0) force-softening  
+Softening_Type1             0.02        	% type=1 force-softening  
+Softening_Type2             0           	% type=2 force-softening  
+Softening_Type3             0           	% type=3 force-softening  
+Softening_Type4             0           	% type=4 force-softening  
+Softening_Type5             0           	% type=5 force-softening
 
 Softening_Type0_MaxPhysLimit    0.0005
-Softening_Type1_MaxPhysLimit    0.010  
+Softening_Type1_MaxPhysLimit    0.030  
 Softening_Type2_MaxPhysLimit    0.075  
 Softening_Type3_MaxPhysLimit    0.250  
 Softening_Type4_MaxPhysLimit    0.0005  
