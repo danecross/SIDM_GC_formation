@@ -13,10 +13,15 @@ data_path = "../evolutions/10Mpc_256/output/"
 available_snapshots = [i for i in range(0, 110) if os.path.exists(data_path+"snapshot_%03i.hdf5"%(i))]
 data_list = [data_path+"snapshot_%03i.hdf5"%(i) for i in available_snapshots]
 
-ds = yt.load(data_list[0])
-plot = yt.ParticlePlot(ds, 'particle_position_x', 'particle_position_y', 'particle_mass')
-fig = plt.figure()
+for data in data_list:
+    ds = yt.load(data)
+    plot = yt.ParticlePlot(ds, 'particle_position_x', 'particle_position_y', 'particle_mass')
+    plot.save("snapshot_density_plots/"+data[-8:-5])
 
+
+
+'''
+fig = plt.figure()
 ts = yt.DatasetSeries(data_list)
 
 
@@ -28,6 +33,7 @@ animation = FuncAnimation(fig, animate, frames=len(ts))
 
 # Override matplotlib's defaults to get a nicer looking font
 with rc_context({'mathtext.fontset': 'stix'}):
-    animation.show('animation.mp4')
-
+    #writergif = animation.PillowWriter(fps=30)
+    animation.save('animation.gif')
+'''
 
