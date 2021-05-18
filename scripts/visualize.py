@@ -8,7 +8,7 @@ import os
 
 yt.toggle_interactivity()
 
-data_path = "../evolutions/10Mpc_256/output/"
+data_path = "../evolutions/10Mpc_256_CDM/output/"
 
 available_snapshots = [i for i in range(0, 110) if os.path.exists(data_path+"snapshot_%03i.hdf5"%(i))]
 data_list = [data_path+"snapshot_%03i.hdf5"%(i) for i in available_snapshots]
@@ -16,7 +16,7 @@ data_list = [data_path+"snapshot_%03i.hdf5"%(i) for i in available_snapshots]
 for data in data_list:
     ds = yt.load(data)
     plot = yt.ParticlePlot(ds, 'particle_position_x', 'particle_position_y', 'particle_mass')
-    plot.save("snapshot_density_plots/"+data[-8:-5])
+    plot.save("snapshot_density_plots_CDM/"+data[-8:-5])
 
 
 
