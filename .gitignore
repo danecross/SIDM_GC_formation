@@ -13,3 +13,8 @@ evolutions/*/*/*
 evolutions/*/*/*/*
 evolutions/*/output/groups*
 
+analyses/rockstar/**
+analyses/rockstar-small/**
+analyses/consistent-trees/**
+
+
