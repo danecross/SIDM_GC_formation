@@ -9,5 +9,7 @@ IC_factory/**/*.hdf5
 
 evolutions/Template_Config.sh
 evolutions/**/*.hdf5
-evolutions/10Mpc_256/10Mpc_256/*
+evolutions/*/*/*
+evolutions/*/*/*/*
+evolutions/*/output/groups*
 
