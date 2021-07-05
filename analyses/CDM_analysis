@@ -1,0 +1,34 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=7:00:00
+#SBATCH -J GroupFindTM
+#SBATCH -p general
+#SBATCH -o log.txt
+#SBATCH -e log.err
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=dncross@iu.edu
+
+module purge
+
+module load PrgEnv-intel
+module load gsl 
+module load cray-hdf5
+module load cray-fftw
+module load pmi-lib
+module load openmpi
+module load slurm
+
+# run the groupfinder
+srun python run_in_python.py ../evolutions/10Mpc_256_CDM/files/output_snapshot_names.txt 
+
+# rename and format groupfinding files for merger analysis
+cd ../evolutions/10Mpc_256_CDM/output/ROCKSTAR_groups/
+python change_names.py
+
+# prep merger analysis tables
+perl ../../../../analyses/rockstar/scripts/gen_merger_cfg.pl rockstar.cfg
+
+# run consistent trees
+cd ../../../../analyses/consistent-trees/
+srun perl do_merger_tree_np.pl /N/slate/dncross/SIDM_GC_formation/evolutions/10Mpc_256_CDM/output/ROCKSTAR_groups/./outputs/merger_tree.cfg
