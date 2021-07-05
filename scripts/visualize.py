@@ -1,39 +1,42 @@
 
+from astropy.io import ascii
 from pprint import pprint
-import yt
-from matplotlib.animation import FuncAnimation
-from matplotlib import rc_context
-from matplotlib import pyplot as plt
 import os
+import shutil
+import numpy as np
+
+import yt
+from yt.units import parsec, Msun
 
 yt.toggle_interactivity()
 
-data_path = "../evolutions/10Mpc_256_CDM/output/"
+# was originally 42
 
-available_snapshots = [i for i in range(0, 110) if os.path.exists(data_path+"snapshot_%03i.hdf5"%(i))]
-data_list = [data_path+"snapshot_%03i.hdf5"%(i) for i in available_snapshots]
+snap_data_path = "../evolutions/10Mpc_256/output/"
+groups_data_path = "../evolutions/10Mpc_256/output/ROCKSTAR_groups/"
 
-for data in data_list:
-    ds = yt.load(data)
+available_outputs = [i for i in range(0, 110) if os.path.exists(groups_data_path+"halos_0.%03i.bin"%(i)) \
+                                             and os.path.exists(snap_data_path+"snapshot_%03i.hdf5"%(i))]
+
+if len(available_outputs) == 0:
+    print("no compatible snapshot and rockstar group files.")
+    print("snapshot path: %s"%(snap_data_path))
+    print("groups path: %s"%(groups_data_path))
+    exit()
+
+snap_data_list = [snap_data_path+"snapshot_%03i.hdf5"%(i) for i in available_outputs]
+groups_data_list = [groups_data_path+"halos_0.%03i.bin"%(i) for i in available_outputs] 
+
+for snap, groups, num in zip(snap_data_list, groups_data_list, available_outputs):
+   
+    shutil.copyfile(groups, "./halos_0.0.bin")
+
+    # plot particle desity map
+    ds = yt.load(snap)
+    halos_ds = yt.load("halos_0.0.bin")
     plot = yt.ParticlePlot(ds, 'particle_position_x', 'particle_position_y', 'particle_mass')
-    plot.save("snapshot_density_plots_CDM/"+data[-8:-5])
+    plot.annotate_halos(halos_ds)
+    
+    plot.save("snapshot_density_plots_groups/"+str(num))
 
-
-
-'''
-fig = plt.figure()
-ts = yt.DatasetSeries(data_list)
-
-
-def animate(i):
-    ds = ts[i]
-    plot._switch_ds(ds)
-
-animation = FuncAnimation(fig, animate, frames=len(ts))
-
-# Override matplotlib's defaults to get a nicer looking font
-with rc_context({'mathtext.fontset': 'stix'}):
-    #writergif = animation.PillowWriter(fps=30)
-    animation.save('animation.gif')
-'''
 
