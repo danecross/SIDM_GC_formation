@@ -20,14 +20,14 @@ module load openmpi
 module load slurm
 
 # run the groupfinder
-srun python run_in_python.py ../evolutions/10Mpc_256_CDM/files/output_snapshot_names.txt 
+#srun python run_in_python.py ../evolutions/10Mpc_256_CDM/files/output_snapshot_names.txt 
 
 # rename and format groupfinding files for merger analysis
 cd ../evolutions/10Mpc_256_CDM/output/ROCKSTAR_groups/
-python change_names.py
+#python change_names.py
 
 # prep merger analysis tables
-perl ../../../../analyses/rockstar/scripts/gen_merger_cfg.pl rockstar.cfg
+#perl ../../../../analyses/rockstar/scripts/gen_merger_cfg.pl ../../../../analyses/rockstar.cfg
 
 # run consistent trees
 cd ../../../../analyses/consistent-trees/
