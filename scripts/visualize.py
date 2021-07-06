@@ -1,6 +1,4 @@
 
-from astropy.io import ascii
-from pprint import pprint
 import os
 import shutil
 import numpy as np
@@ -10,13 +8,12 @@ from yt.units import parsec, Msun
 
 yt.toggle_interactivity()
 
-# was originally 42
-
 snap_data_path = "../evolutions/10Mpc_256/output/"
 groups_data_path = "../evolutions/10Mpc_256/output/ROCKSTAR_groups/"
 
 available_outputs = [i for i in range(0, 110) if os.path.exists(groups_data_path+"halos_0.%03i.bin"%(i)) \
-                                             and os.path.exists(snap_data_path+"snapshot_%03i.hdf5"%(i))]
+                                             and os.path.exists(snap_data_path+"snapshot_%03i.hdf5"%(i)) \
+					     and not os.path.exists("snapshot_density_plots_groups/%i_Particle_z_particle_mass.png"%(i))]
 
 if len(available_outputs) == 0:
     print("no compatible snapshot and rockstar group files.")
